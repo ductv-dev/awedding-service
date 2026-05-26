@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { getDemoUrl } from '@/lib/demoLinks';
 
 export const metadata: Metadata = {
   title: '6 mẫu thiệp cưới đẹp — aWedding',
@@ -177,7 +178,7 @@ export default function MauThiepPage() {
 
                 <div className="flex flex-col gap-2 sm:ml-6 sm:shrink-0">
                   <a
-                    href={`http://localhost:3001/${theme.demoSlug}`}
+                    href={getDemoUrl(theme.demoSlug)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-white transition-all hover:scale-105 active:scale-95"

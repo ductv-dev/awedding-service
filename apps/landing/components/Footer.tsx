@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { getDemoUrl } from '@/lib/demoLinks';
 
 export function Footer() {
   return (
@@ -22,8 +23,14 @@ export function Footer() {
             <nav className="flex flex-col gap-2" aria-label="Footer navigation">
               <Link href="/mau-thiep" className="text-sm text-gray-600 hover:text-red-600 transition-colors">Xem mẫu thiệp</Link>
               <Link href="/bang-gia" className="text-sm text-gray-600 hover:text-red-600 transition-colors">Bảng giá dịch vụ</Link>
-              {/* Link demo trỏ tới wedding-site — production sẽ là demo.awedding.online */}
-              <a href="/demo" className="text-sm text-gray-600 hover:text-red-600 transition-colors">Demo thiệp cưới</a>
+              <a
+                href={getDemoUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-gray-600 hover:text-red-600 transition-colors"
+              >
+                Demo thiệp cưới
+              </a>
             </nav>
           </div>
 

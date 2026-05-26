@@ -21,20 +21,35 @@ export function PhotoGrid({ photos, className }: PhotoGridProps) {
     <>
       <div className={cn('space-y-3', className)}>
         {/* Grid 2x2 */}
-        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+        <div
+          className="grid grid-cols-2 gap-2 sm:gap-3"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+            gap: '0.5rem',
+          }}
+        >
           {preview.map((src, i) => (
             <button
               key={i}
               onClick={() => setLightboxIndex(i)}
               className="group relative aspect-square overflow-hidden rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              style={{
+                aspectRatio: '1 / 1',
+                position: 'relative',
+                width: '100%',
+                overflow: 'hidden',
+              }}
               aria-label={`Xem ảnh ${i + 1}`}
             >
               <Image
                 src={src}
                 alt={`Ảnh cưới ${i + 1}`}
                 fill
+                unoptimized
                 sizes="(max-width: 640px) 45vw, 300px"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
+                style={{ objectFit: 'cover' }}
               />
               {/* Overlay thêm ảnh trên ô thứ 4 */}
               {i === 3 && extra > 0 && !showAll && (

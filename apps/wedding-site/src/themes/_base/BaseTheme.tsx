@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Share2 } from 'lucide-react';
 import {
   AudioPlayer, ScrollProgress, PhotoGrid, QRModal,
-  CalendarWidget, MapEmbed,
+  MapEmbed,
 } from '@workspace/ui';
 import { PetalsCanvas, useAutoScroll, useTypewriter } from '@workspace/animations';
 import type { WeddingConfig } from '@workspace/types';
@@ -70,6 +69,7 @@ function BaseIntroScreen({
 
   const handleEnter = () => {
     onOpened();
+    window.dispatchEvent(new Event(INVITE_OPENED_EVENT));
     setTimeout(() => startScroll(), 800);
   };
 
@@ -302,62 +302,85 @@ function SectionLabel({ children, fontHeading }: { children: React.ReactNode; fo
 // ─── Album ───────────────────────────────────────────────────────────────────
 
 function BaseAlbum({ photos, theme }: { photos: string[]; theme: BaseThemeConfig }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
   return (
     <Section Divider={theme.SectionDivider}>
-      <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
+      <div>
         <SectionLabel fontHeading={theme.fontHeading}>Khoảnh Khắc Của Chúng Tôi</SectionLabel>
         <PhotoGrid photos={photos} />
-      </motion.div>
+      </div>
     </Section>
   );
 }
 
 // ─── Family Info ─────────────────────────────────────────────────────────────
 
-function BaseFamilyInfo({ config, theme }: { config: WeddingConfig; theme: BaseThemeConfig }) {
-  const FamilyCol = ({
-    person, title, delay,
-  }: { person: WeddingConfig['groom'] | WeddingConfig['bride']; title: string; delay: number }) => {
-    const ref = useRef<HTMLDivElement>(null);
-    const inView = useInView(ref, { once: true, margin: '-60px' });
-    return (
-      <motion.div ref={ref} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay }} className="flex flex-col items-center gap-4 text-center"
-      >
-        <div className="rounded-full px-4 py-1 text-xs font-bold tracking-widest uppercase"
-          style={{
-            background: cv.primary13,
-            border: `1px solid ${cv.primary27}`,
-            color: cv.primary,
-          }}>
-          {title}
-        </div>
-        <div className="space-y-1">
-          <p className="font-medium" style={{ color: cv.text }}>{person.fatherName}</p>
-          <p className="font-medium" style={{ color: cv.text }}>{person.motherName}</p>
-        </div>
-        <p className="text-sm" style={{ color: cv.muted }}>📍 {person.address}</p>
-        <div className="w-full rounded-xl px-4 py-3"
-          style={{ background: cv.accent09, border: `1px solid ${cv.accent27}` }}>
-          <p className="text-[10px] tracking-widest uppercase mb-0.5" style={{ color: cv.muted }}>
-            {title === 'Nhà Trai' ? 'Chú Rể' : 'Cô Dâu'}
-          </p>
-          <p className="text-lg font-bold" style={{ fontFamily: theme.fontDisplay, color: cv.accent }}>
-            {person.name}
-          </p>
-          <p className="text-xs mt-0.5" style={{ color: cv.muted }}>{person.role}</p>
-        </div>
-      </motion.div>
-    );
+function FamilyInfoColumn({
+  person, title, delay, theme,
+}: {
+  person: WeddingConfig['groom'] | WeddingConfig['bride'];
+  title: string;
+  delay: number;
+  theme: BaseThemeConfig;
+}) {
+  const wrapText: React.CSSProperties = {
+    overflowWrap: 'anywhere',
+    wordBreak: 'break-word',
+    hyphens: 'auto',
   };
 
   return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.6, delay }}
+      className="min-w-0 rounded-xl px-2 py-3 text-center sm:px-4"
+      style={{ background: cv.accent09, border: `1px solid ${cv.accent20}` }}
+    >
+      <div
+        className="mx-auto mb-3 w-fit rounded-full px-3 py-1 text-[10px] font-bold uppercase"
+        style={{
+          background: cv.primary13,
+          border: `1px solid ${cv.primary27}`,
+          color: cv.primary,
+          letterSpacing: '0.08em',
+        }}
+      >
+        {title}
+      </div>
+
+      <div className="mb-3 space-y-1">
+        <p className="text-xs font-medium leading-snug sm:text-sm" style={{ ...wrapText, color: cv.text }}>{person.fatherName}</p>
+        <p className="text-xs font-medium leading-snug sm:text-sm" style={{ ...wrapText, color: cv.text }}>{person.motherName}</p>
+      </div>
+
+      <p className="mb-3 text-[11px] leading-snug sm:text-sm" style={{ ...wrapText, color: cv.muted }}>
+        {person.address}
+      </p>
+
+      <div className="rounded-lg px-2 py-2 sm:px-4"
+        style={{ background: cv.bg60, border: `1px solid ${cv.accent27}` }}>
+        <p className="mb-0.5 text-[9px] uppercase sm:text-[10px]" style={{ color: cv.muted, letterSpacing: '0.08em' }}>
+          {title === 'Nhà Trai' ? 'Chú Rể' : 'Cô Dâu'}
+        </p>
+        <p
+          className="text-base font-bold leading-tight sm:text-lg"
+          style={{ ...wrapText, fontFamily: theme.fontDisplay, color: cv.accent }}
+        >
+          {person.name}
+        </p>
+        <p className="mt-0.5 text-[11px] sm:text-xs" style={{ ...wrapText, color: cv.muted }}>{person.role}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+function BaseFamilyInfo({ config, theme }: { config: WeddingConfig; theme: BaseThemeConfig }) {
+  return (
     <Section alt Divider={theme.SectionDivider}>
       <SectionLabel fontHeading={theme.fontHeading}>Thông Tin Gia Đình</SectionLabel>
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-[1fr_auto_1fr]">
-        <FamilyCol person={config.groom} title="Nhà Trai" delay={0} />
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:gap-8">
+        <FamilyInfoColumn person={config.groom} title="Nhà Trai" delay={0} theme={theme} />
         <div className="hidden sm:flex flex-col items-center gap-2 py-4" aria-hidden="true">
           <div className="flex-1 w-px" style={{
             background: `linear-gradient(to bottom, transparent, ${cv.accent}, transparent)`,
@@ -367,7 +390,7 @@ function BaseFamilyInfo({ config, theme }: { config: WeddingConfig; theme: BaseT
             background: `linear-gradient(to bottom, transparent, ${cv.accent}, transparent)`,
           }} />
         </div>
-        <FamilyCol person={config.bride} title="Nhà Gái" delay={0.15} />
+        <FamilyInfoColumn person={config.bride} title="Nhà Gái" delay={0.15} theme={theme} />
       </div>
     </Section>
   );
@@ -375,42 +398,75 @@ function BaseFamilyInfo({ config, theme }: { config: WeddingConfig; theme: BaseT
 
 // ─── Events ──────────────────────────────────────────────────────────────────
 
+function EventDateBadge({ date }: { date: string }) {
+  const d = new Date(date + 'T00:00:00');
+  const days = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+  return (
+    <div
+      className="flex w-20 shrink-0 flex-col overflow-hidden rounded-xl text-center sm:w-24"
+      style={{ border: `1px solid ${cv.primary27}`, background: cv.bg60 }}
+    >
+      <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-white" style={{ background: cv.primary }}>
+        {days[d.getDay()]}
+      </div>
+      <div className="px-2 py-2">
+        <p className="text-2xl font-bold leading-none sm:text-3xl" style={{ color: cv.accent }}>{d.getDate()}</p>
+        <p className="mt-1 text-[10px] font-semibold uppercase" style={{ color: cv.muted }}>
+          Tháng {d.getMonth() + 1}
+        </p>
+        <p className="text-[10px]" style={{ color: cv.muted }}>{d.getFullYear()}</p>
+      </div>
+    </div>
+  );
+}
+
 function BaseEvents({ events, theme }: { events: WeddingConfig['events']; theme: BaseThemeConfig }) {
   return (
     <Section Divider={theme.SectionDivider}>
       <SectionLabel fontHeading={theme.fontHeading}>Thời Gian & Địa Điểm</SectionLabel>
-      <div className={`grid gap-5 ${events.length > 1 ? 'sm:grid-cols-2' : 'max-w-sm mx-auto'}`}>
+      <div className={`grid gap-4 ${events.length > 1 ? 'sm:grid-cols-2' : 'max-w-md mx-auto'}`}>
         {events.map((event, i) => {
-          const ref = useRef<HTMLDivElement>(null);
-          const inView = useInView(ref, { once: true, margin: '-60px' });
           return (
-            <motion.div key={i} ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
+            <motion.div key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.6, delay: i * 0.15 }}
-              className="overflow-hidden rounded-2xl"
+              className="rounded-2xl p-4"
               style={{ background: cv.card, border: `1px solid ${cv.accent20}` }}
             >
-              <div className="px-5 py-3 text-center text-xs font-bold tracking-[0.15em] uppercase"
-                style={{ background: cv.primary, color: '#fff' }}>
-                {event.label}
-              </div>
-              <div className="flex flex-col items-center gap-4 p-5">
-                <CalendarWidget date={event.date} />
-                <div className="w-full space-y-2 text-sm" style={{ color: cv.text }}>
-                  <div className="flex items-center gap-2">
-                    <span style={{ color: cv.accent }}>⏰</span>
-                    <span>
-                      <strong style={{ color: cv.accent }}>{event.time}</strong> — {event.venue}
-                    </span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span style={{ color: cv.accent }}>📍</span>
-                    <span style={{ color: cv.muted }}>{event.address}</span>
+              <div className="flex gap-3 sm:gap-4">
+                <EventDateBadge date={event.date} />
+                <div className="min-w-0 flex-1">
+                  <p
+                    className="mb-1 text-[11px] font-bold uppercase sm:text-xs"
+                    style={{ color: cv.primary, letterSpacing: '0.1em' }}
+                  >
+                    {event.label}
+                  </p>
+                  <h3
+                    className="text-base font-bold leading-snug sm:text-lg"
+                    style={{ color: cv.text, overflowWrap: 'anywhere' }}
+                  >
+                    {event.venue}
+                  </h3>
+                  <div className="mt-3 space-y-2 text-sm" style={{ color: cv.text }}>
+                    <div className="flex items-start gap-2">
+                      <span className="mt-0.5 shrink-0" style={{ color: cv.accent }}>⏰</span>
+                      <span style={{ overflowWrap: 'anywhere' }}>
+                        <strong style={{ color: cv.accent }}>{event.time}</strong> · {formatDateVi(event.date)}
+                      </span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="mt-0.5 shrink-0" style={{ color: cv.accent }}>📍</span>
+                      <span style={{ color: cv.muted, overflowWrap: 'anywhere' }}>{event.address}</span>
+                    </div>
                   </div>
                 </div>
-                {event.mapEmbedUrl && (
-                  <MapEmbed url={event.mapEmbedUrl} address={event.address} className="w-full" />
-                )}
               </div>
+              {event.mapEmbedUrl && (
+                <MapEmbed url={event.mapEmbedUrl} address={event.address} className="mt-4 w-full" />
+              )}
             </motion.div>
           );
         })}
@@ -427,15 +483,16 @@ function BaseTimeline({ items, theme }: { items: WeddingConfig['timeline']; them
       <SectionLabel fontHeading={theme.fontHeading}>Chương Trình Ngày Cưới</SectionLabel>
       <ol className="relative mx-auto max-w-md space-y-6" aria-label="Lịch trình">
         {items.map((item, i) => {
-          const ref = useRef<HTMLLIElement>(null);
-          const inView = useInView(ref, { once: true, margin: '-50px' });
           return (
-            <motion.li key={i} ref={ref} initial={{ opacity: 0, x: -28 }} animate={inView ? { opacity: 1, x: 0 } : {}}
+            <motion.li key={i}
+              initial={{ opacity: 0, x: -28 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
               className="relative flex gap-4 pb-6 last:pb-0"
             >
               {i < items.length - 1 && (
-                <div className="absolute left-[19px] top-10 bottom-0 w-px"
+                <div className="absolute left-4.75 top-10 bottom-0 w-px"
                   style={{ background: cv.primary27 }} aria-hidden="true" />
               )}
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white shadow-md"
@@ -583,8 +640,6 @@ const DEFAULT_CLOSING = {
 };
 
 function BaseClosing({ config, theme }: { config: WeddingConfig; theme: BaseThemeConfig }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
   const [toast, setToast] = useState<string | null>(null);
   const closing = config.closingText ?? DEFAULT_CLOSING;
   const weddingDate = config.events[0]?.date ?? '';
@@ -605,8 +660,11 @@ function BaseClosing({ config, theme }: { config: WeddingConfig; theme: BaseThem
     <section className="relative py-20 px-4 text-center" style={{ background: cv.bg }}>
       <theme.SectionDivider className="mb-10 opacity-30" />
       <motion.div
-        ref={ref} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7 }} className="mx-auto max-w-lg"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.7 }}
+        className="mx-auto max-w-lg"
       >
         <theme.IntroOrnament className="mb-6 opacity-50" />
         <h2
@@ -651,6 +709,7 @@ interface BaseThemeProps {
 }
 
 const SESSION_KEY = (slug: string) => `hasOpenedInvite_${slug}`;
+const INVITE_OPENED_EVENT = 'awedding:invite-opened';
 
 export function BaseTheme({ config, theme, guestName }: BaseThemeProps) {
   const [showIntro, setShowIntro] = useState(false);
@@ -714,6 +773,7 @@ export function BaseTheme({ config, theme, guestName }: BaseThemeProps) {
           src={config.music.url}
           title={config.music.title}
           autoplay={config.music.autoplay}
+          autoplayEventName={INVITE_OPENED_EVENT}
           accentColor="var(--primary)"
         />
       )}

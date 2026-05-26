@@ -8,6 +8,7 @@ interface AudioPlayerProps {
   src: string;
   title: string;
   autoplay?: boolean;
+  autoplayEventName?: string;
   accentColor?: string;
 }
 
@@ -15,11 +16,13 @@ export function AudioPlayer({
   src,
   title,
   autoplay = false,
+  autoplayEventName,
   accentColor = '#C41E3A',
 }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const howlRef = useRef<import('howler').Howl | null>(null);
+  const pendingAutoplayRef = useRef(false);
 
   // Khởi tạo Howl sau khi mount (tránh SSR)
   useEffect(() => {
@@ -41,6 +44,7 @@ export function AudioPlayer({
       });
 
       howlRef.current = sound;
+      if (pendingAutoplayRef.current) sound.play();
     });
 
     return () => {
@@ -49,25 +53,18 @@ export function AudioPlayer({
     };
   }, [src]);
 
-  // Autoplay sau gesture đầu tiên (chỉ gói personal)
+  // Autoplay only after the invite opening gesture.
   useEffect(() => {
-    if (!autoplay || !isReady) return;
+    if (!autoplay || !autoplayEventName) return;
 
-    const handleFirstGesture = () => {
+    const handleAutoplay = () => {
+      pendingAutoplayRef.current = true;
       howlRef.current?.play();
-      cleanup();
     };
-    const cleanup = () => {
-      ['click', 'touchstart', 'keydown'].forEach(e =>
-        window.removeEventListener(e, handleFirstGesture),
-      );
-    };
-    ['click', 'touchstart', 'keydown'].forEach(e =>
-      window.addEventListener(e, handleFirstGesture, { once: true, passive: true }),
-    );
+    window.addEventListener(autoplayEventName, handleAutoplay, { once: true });
 
-    return cleanup;
-  }, [autoplay, isReady]);
+    return () => window.removeEventListener(autoplayEventName, handleAutoplay);
+  }, [autoplay, autoplayEventName]);
 
   const toggle = useCallback(() => {
     const howl = howlRef.current;

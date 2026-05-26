@@ -4,7 +4,7 @@
   "isDemo": true,
   "theme": "champagne-gold",
   "groom": {
-    "name": "Việt Đức",
+    "name": "Viết Đức",
     "role": "Trưởng Nam",
     "fatherName": "Ông Nguyễn Văn Thành",
     "motherName": "Bà Trần Thị Mai",
@@ -37,7 +37,11 @@
     }
   ],
   "timeline": [
-    { "time": "08:00", "title": "Lễ Gia Tiên", "description": "Tại tư gia nhà trai" },
+    {
+      "time": "08:00",
+      "title": "Lễ Gia Tiên",
+      "description": "Tại tư gia nhà trai"
+    },
     { "time": "09:30", "title": "Lễ Rước Dâu" },
     { "time": "11:00", "title": "Tiệc Cưới", "description": "White Palace" },
     { "time": "14:00", "title": "Tiệc Kết Thúc" }
@@ -50,7 +54,7 @@
     "/images/anh-cuoi-4.jpg"
   ],
   "music": {
-    "url": "/music/wedding-music.wav",
+    "url": "/music/cuoi-nhau-di.mp3",
     "title": "Wedding Music",
     "autoplay": true
   },

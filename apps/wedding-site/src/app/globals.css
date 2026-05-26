@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@source "../../../../packages/ui/src";
+@source "../../../../packages/animations/src";
 
 @theme inline {
   --font-serif: var(--font-serif-var, Georgia, serif);

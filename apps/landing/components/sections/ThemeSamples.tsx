@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { getDemoUrl } from '@/lib/demoLinks';
 
 const THEMES = [
   {
@@ -100,7 +101,7 @@ function ThemeCard({ theme, delay }: { theme: typeof THEMES[number]; delay: numb
           <p className="text-xs text-gray-500">{theme.desc}</p>
         </div>
         <a
-          href={`http://localhost:3001/${theme.demoSlug}`}
+          href={getDemoUrl(theme.demoSlug)}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold text-white transition-all group-hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
