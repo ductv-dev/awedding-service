@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getWeddingData } from '@/lib/getWeddingData';
 import { decodeGuestName } from '@/lib/decodeGuestName';
+import { WEDDING_SITE_NAME, WEDDING_SITE_URL } from '@/lib/seo';
 import { EmeraldForestTheme } from '@/themes/EmeraldForest';
 import { TraditionalRedTheme } from '@/themes/TraditionalRed';
 import { ChampagneGoldTheme } from '@/themes/ChampagneGold';
@@ -19,12 +20,46 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const config = await getWeddingData(slug);
   if (!config) return {};
+  const title = `Thiệp cưới ${config.groom.name} & ${config.bride.name}`;
+  const description = `Kính mời quý khách đến dự đám cưới của ${config.groom.name} và ${config.bride.name}. Xem thời gian, địa điểm, album ảnh và gửi lời chúc.`;
+  const url = `${WEDDING_SITE_URL}/${slug}`;
+  const images = config.coverPhoto ? [{ url: config.coverPhoto, alt: title }] : [];
+
   return {
-    title: `Thiệp cưới ${config.groom.name} & ${config.bride.name}`,
-    description: `Kính mời quý khách đến dự đám cưới của ${config.groom.name} & ${config.bride.name}`,
+    title,
+    description,
+    alternates: {
+      canonical: `/${slug}`,
+    },
     openGraph: {
-      title: `${config.groom.name} & ${config.bride.name} 💍`,
-      images: config.coverPhoto ? [{ url: config.coverPhoto }] : [],
+      type: 'website',
+      locale: 'vi_VN',
+      url,
+      siteName: WEDDING_SITE_NAME,
+      title: `${config.groom.name} & ${config.bride.name}`,
+      description,
+      images,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${config.groom.name} & ${config.bride.name}`,
+      description,
+      images: config.coverPhoto ? [config.coverPhoto] : undefined,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    other: {
+      'wedding:groom': config.groom.name,
+      'wedding:bride': config.bride.name,
+      'wedding:date': config.events[0]?.date ?? '',
     },
   };
 }

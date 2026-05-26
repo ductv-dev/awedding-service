@@ -4,10 +4,26 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { getDemoUrl } from '@/lib/demoLinks';
+import { SITE_DESCRIPTION, SITE_NAME } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: '6 mẫu thiệp cưới đẹp — aWedding',
+  title: '6 mẫu thiệp cưới đẹp',
   description: 'Khám phá 6 giao diện thiệp cưới online: Emerald Forest, Traditional Red, Champagne Gold, Sage Green, Blush Rose, Ink Minimal.',
+  alternates: {
+    canonical: '/mau-thiep',
+  },
+  openGraph: {
+    type: 'website',
+    url: '/mau-thiep',
+    siteName: SITE_NAME,
+    title: '6 mẫu thiệp cưới đẹp | aWedding',
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: 'summary',
+    title: '6 mẫu thiệp cưới đẹp | aWedding',
+    description: SITE_DESCRIPTION,
+  },
 };
 
 const THEMES = [

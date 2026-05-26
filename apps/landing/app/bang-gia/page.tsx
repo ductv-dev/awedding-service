@@ -3,10 +3,26 @@ import Link from 'next/link';
 import { ArrowLeft, Check, X } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { SITE_NAME } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Bảng giá thiệp cưới online — aWedding',
+  title: 'Bảng giá thiệp cưới online',
   description: 'Gói Cơ Bản 99k hoặc Cá Nhân Hóa 149k. Minh bạch, không phí ẩn — dùng 6 tháng với subdomain riêng.',
+  alternates: {
+    canonical: '/bang-gia',
+  },
+  openGraph: {
+    type: 'website',
+    url: '/bang-gia',
+    siteName: SITE_NAME,
+    title: 'Bảng giá thiệp cưới online | aWedding',
+    description: 'Gói Cơ Bản 99k hoặc Cá Nhân Hóa 149k. Minh bạch, không phí ẩn, dùng 6 tháng với subdomain riêng.',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Bảng giá thiệp cưới online | aWedding',
+    description: 'Gói Cơ Bản 99k hoặc Cá Nhân Hóa 149k. Minh bạch, không phí ẩn.',
+  },
 };
 
 const COMPARISON = [
