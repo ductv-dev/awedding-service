@@ -5,6 +5,5 @@
     "moduleResolution": "Bundler",
     "noEmit": true
   },
-  "include": ["."],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src"]
 }

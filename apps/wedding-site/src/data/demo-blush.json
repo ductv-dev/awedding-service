@@ -1,0 +1,61 @@
+{
+  "slug": "demo-blush",
+  "plan": "personal",
+  "isDemo": true,
+  "theme": "blush-rose",
+  "groom": {
+    "name": "Việt Đức",
+    "role": "Trưởng Nam",
+    "fatherName": "Ông Nguyễn Văn Thành",
+    "motherName": "Bà Trần Thị Mai",
+    "address": "123 Nguyễn Huệ, Quận 1, TP.HCM"
+  },
+  "bride": {
+    "name": "Ngọc Anh",
+    "role": "Thứ Nữ",
+    "fatherName": "Ông Lê Văn Hùng",
+    "motherName": "Bà Phạm Thị Lan",
+    "address": "456 Lê Lợi, Quận 3, TP.HCM"
+  },
+  "events": [
+    {
+      "type": "ceremony",
+      "label": "Lễ Gia Tiên",
+      "date": "2026-07-27",
+      "time": "08:00",
+      "venue": "Tư gia Nhà Trai",
+      "address": "123 Nguyễn Huệ, Quận 1, TP.HCM"
+    },
+    {
+      "type": "reception",
+      "label": "Tiệc Cưới",
+      "date": "2026-07-27",
+      "time": "11:00",
+      "venue": "Trung tâm Hội nghị White Palace",
+      "address": "194 Hoàng Văn Thụ, Quận Phú Nhuận, TP.HCM",
+      "mapEmbedUrl": "https://maps.google.com/maps?q=White+Palace+Ho+Chi+Minh&output=embed"
+    }
+  ],
+  "timeline": [
+    { "time": "08:00", "title": "Lễ Gia Tiên", "description": "Tại tư gia nhà trai" },
+    { "time": "09:30", "title": "Lễ Rước Dâu" },
+    { "time": "11:00", "title": "Tiệc Cưới", "description": "White Palace" },
+    { "time": "14:00", "title": "Tiệc Kết Thúc" }
+  ],
+  "coverPhoto": "/images/anh-cuoi-1.jpg",
+  "galleryPhotos": [
+    "/images/anh-cuoi-1.jpg",
+    "/images/anh-cuoi-2.webp",
+    "/images/anh-cuoi-3.webp",
+    "/images/anh-cuoi-4.jpg"
+  ],
+  "music": {
+    "url": "/music/wedding-music.wav",
+    "title": "Wedding Music",
+    "autoplay": true
+  },
+  "closingText": {
+    "vi": "Sự hiện diện của quý khách là niềm vinh hạnh của gia đình chúng tôi!",
+    "en": "Your presence would be the greatest gift we could receive!"
+  }
+}

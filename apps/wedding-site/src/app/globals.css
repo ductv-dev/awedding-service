@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-serif: var(--font-serif-var, Georgia, serif);
+  --font-sans: var(--font-sans-var, system-ui, sans-serif);
+  --font-display: var(--font-display-var, var(--font-serif));
+
+  --color-wedding-cream: #FFF8DC;
+  --color-wedding-gold: #D4AF37;
+  --color-wedding-red: #C41E3A;
+  --color-wedding-dark: #1C0A00;
+  --color-wedding-pink: #D4688A;
+  --color-wedding-blush: #FFB7C5;
+  --color-wedding-green: #4A7C59;
+  --color-wedding-brown: #8B7355;
+  --color-wedding-sepia: #F5ECD7;
+  --color-wedding-maroon: #8B1A1A;
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* CSS Animations dùng cho tất cả themes */
+@keyframes kenBurns {
+  0%   { transform: scale(1) translate(0, 0); }
+  50%  { transform: scale(1.1) translate(-2%, -1%); }
+  100% { transform: scale(1) translate(0, 0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes petalFall {
+  0%   { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ─── Theme CSS Variables ─────────────────────────────────────────────────── */
+
+.theme-emerald-forest {
+  --bg:          #1B3A2D;
+  --bg-card:     #16301F;
+  --bg-body:     radial-gradient(ellipse at top, #24472F 0%, #1B3A2D 70%);
+  --primary:     #C9A84C;
+  --accent:      #E8D5A3;
+  --text:        #E8D5A3;
+  --text-muted:  #B8A882;
+  --border:      #2D5040;
+  --heading-color: #E8D5A3;
+}
+
+.theme-traditional-red {
+  --bg:          #FAF3EC;
+  --bg-card:     #FFFFFF;
+  --primary:     #8B1A1A;
+  --accent:      #C9A84C;
+  --text:        #1A1A1A;
+  --text-muted:  #6B4040;
+  --border:      #E8D5D5;
+  --heading-color: #8B1A1A;
+}
+
+.theme-champagne-gold {
+  --bg:          #FAF8F2;
+  --bg-card:     #FFFFFF;
+  --primary:     #B5924C;
+  --accent:      #D4B483;
+  --text:        #2A2015;
+  --text-muted:  #8B7355;
+  --border:      #E8D9B8;
+  --heading-color: #B5924C;
+}
+
+.theme-sage-green {
+  --bg:          #F4F7F2;
+  --bg-card:     #FFFFFF;
+  --primary:     #7D9B76;
+  --accent:      #4A6741;
+  --text:        #2C3E2D;
+  --text-muted:  #6B8566;
+  --border:      #C8D9C4;
+  --heading-color: #4A6741;
+}
+
+.theme-blush-rose {
+  --bg:          #FDF6F0;
+  --bg-card:     #FFFFFF;
+  --primary:     #C9847A;
+  --accent:      #E8B4AE;
+  --text:        #3D2020;
+  --text-muted:  #9B6B65;
+  --border:      #F0D5D0;
+  --heading-color: #C9847A;
+}
+
+.theme-ink-minimal {
+  --bg:          #FAFAFA;
+  --bg-card:     #FFFFFF;
+  --primary:     #1A1A1A;
+  --accent:      #8B7355;
+  --text:        #1A1A1A;
+  --text-muted:  #888888;
+  --border:      #E0E0E0;
+  --heading-color: #1A1A1A;
+}
+
+/* Leaf/vine pattern overlay — emerald-forest only */
+.theme-emerald-forest .theme-texture {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 10 C28 22 22 36 28 52 C34 68 56 68 62 52 C68 36 62 22 40 10Z' fill='%23C9A84C' opacity='0.15'/%3E%3Cpath d='M15 40 C15 40 28 30 40 40 C40 40 28 50 15 40Z' fill='%23C9A84C' opacity='0.1'/%3E%3Cpath d='M65 40 C65 40 52 30 40 40 C40 40 52 50 65 40Z' fill='%23C9A84C' opacity='0.1'/%3E%3C/svg%3E");
+  background-size: 80px 80px;
+  opacity: 1;
+}

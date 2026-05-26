@@ -1,15 +1,10 @@
 @import "tailwindcss";
 
-@source "../../../apps/**/*.{ts,tsx}";
-@source "../**/*.{ts,tsx}";
-
 @theme inline {
-  /* Font variables — mỗi theme sẽ override qua next/font */
   --font-serif: Georgia, serif;
   --font-sans: system-ui, sans-serif;
-  --font-display: var(--font-serif);
+  --font-display: var(--font-display-var, var(--font-serif));
 
-  /* Wedding color palette */
   --color-wedding-cream: #FFF8DC;
   --color-wedding-gold: #D4AF37;
   --color-wedding-red: #C41E3A;
@@ -21,7 +16,6 @@
   --color-wedding-sepia: #F5ECD7;
   --color-wedding-maroon: #8B1A1A;
   --color-wedding-gold-dark: #C9A84C;
-  --color-wedding-light-gold: #E8D5A3;
 }
 
 @layer base {
@@ -33,19 +27,11 @@
 
   html {
     scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
   }
 
   body {
     margin: 0;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  img,
-  video {
-    max-width: 100%;
-    height: auto;
   }
 }
