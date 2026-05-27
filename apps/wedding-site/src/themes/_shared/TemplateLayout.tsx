@@ -55,7 +55,8 @@ function IntroScreen({
   tokens: TemplateTokens;
   onOpened: () => void;
 }) {
-  const { start: startScroll } = useAutoScroll({ speed: 0.5 });
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const { start: startScroll } = useAutoScroll({ speed: isMobile ? 0.8 : 0.5 });
   const weddingDate = config.events[0]?.date ?? '';
   const openedRef = useRef(false);
 
@@ -64,7 +65,7 @@ function IntroScreen({
     openedRef.current = true;
     onOpened();
     window.dispatchEvent(new Event(INVITE_OPENED_EVENT));
-    const shouldAutoScroll = window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)').matches;
+    const shouldAutoScroll = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
     if (shouldAutoScroll) setTimeout(() => startScroll(), 800);
   };
 
