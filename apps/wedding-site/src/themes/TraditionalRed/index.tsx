@@ -2,9 +2,20 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { BaseTheme } from '../_base/BaseTheme';
-import type { BaseThemeConfig } from '../_base/themeConfig';
 import type { WeddingConfig } from '@workspace/types';
+import {
+  ClosingSection,
+  FamilySection,
+  GallerySection,
+  GiftSection,
+  TemplateShell,
+  TimelineSection,
+  WishesSection,
+  type TemplateProps,
+  type TemplateTokens,
+} from '../_shared/TemplateLayout';
+import { TraditionalCountdown } from '../_shared/ThemeCountdowns';
+import { TraditionalEvents } from '../_shared/ThemeEventSections';
 
 // ─── Decorations ──────────────────────────────────────────────────────────────
 
@@ -33,8 +44,8 @@ function RedDivider({ className = '' }: { className?: string }) {
 // ─── Custom Hero ──────────────────────────────────────────────────────────────
 
 function TraditionalHero({
-  config, theme, guestName,
-}: { config: WeddingConfig; theme: BaseThemeConfig; guestName?: string }) {
+  config, tokens, guestName,
+}: { config: WeddingConfig; tokens: TemplateTokens; guestName?: string }) {
   const groomPhoto = config.groom.photo ?? config.galleryPhotos[0] ?? config.coverPhoto;
   const bridePhoto = config.bride.photo ?? config.galleryPhotos[2] ?? config.coverPhoto;
 
@@ -79,7 +90,7 @@ function TraditionalHero({
             <p
               className="font-bold"
               style={{
-                fontFamily: theme.fontDisplay,
+                fontFamily: tokens.fontDisplay,
                 color: 'var(--primary)',
                 fontSize: 'clamp(1rem, 3vw, 1.3rem)',
               }}
@@ -136,7 +147,7 @@ function TraditionalHero({
             <p
               className="font-bold"
               style={{
-                fontFamily: theme.fontDisplay,
+                fontFamily: tokens.fontDisplay,
                 color: 'var(--primary)',
                 fontSize: 'clamp(1rem, 3vw, 1.3rem)',
               }}
@@ -180,7 +191,7 @@ function TraditionalHero({
         <p
           className="font-bold"
           style={{
-            fontFamily: theme.fontDisplay,
+            fontFamily: tokens.fontDisplay,
             color: 'var(--text)',
             fontSize: 'clamp(2rem, 8vw, 3.5rem)',
             lineHeight: 1.1,
@@ -195,7 +206,7 @@ function TraditionalHero({
         <p
           className="font-bold"
           style={{
-            fontFamily: theme.fontDisplay,
+            fontFamily: tokens.fontDisplay,
             color: 'var(--text)',
             fontSize: 'clamp(2rem, 8vw, 3.5rem)',
             lineHeight: 1.1,
@@ -230,22 +241,30 @@ function TraditionalHero({
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
-const config: BaseThemeConfig = {
+const tokens: TemplateTokens = {
   themeClass: 'theme-traditional-red',
   fontDisplay: 'var(--font-playfair, Georgia, serif)',
   fontHeading: 'var(--font-playfair, Georgia, serif)',
   fontBody: 'var(--font-source-sans, system-ui, sans-serif)',
   particles: { color: '#C9A84C', shape: 'particle', count: 10 },
-  HeroOrnament: ({ className = '' }) => <DoubleHappiness className={className} />,
   SectionDivider: RedDivider,
   IntroOrnament: ({ className = '' }) => <DoubleHappiness className={className} />,
-  HeroOverride: TraditionalHero,
 };
 
 // ─── Export ───────────────────────────────────────────────────────────────────
 
-interface Props { config: WeddingConfig; guestName?: string }
-
-export function TraditionalRedTheme({ config: weddingConfig, guestName }: Props) {
-  return <BaseTheme config={weddingConfig} theme={config} guestName={guestName} />;
+export function TraditionalRedTheme({ config, guestName }: TemplateProps) {
+  return (
+    <TemplateShell config={config} tokens={tokens}>
+      <TraditionalHero config={config} tokens={tokens} guestName={guestName} />
+      <TraditionalCountdown config={config} tokens={tokens} />
+      <FamilySection config={config} tokens={tokens} />
+      <TraditionalEvents config={config} tokens={tokens} />
+      <GallerySection config={config} tokens={tokens} />
+      <TimelineSection config={config} tokens={tokens} alt />
+      <GiftSection config={config} tokens={tokens} />
+      <WishesSection tokens={tokens} alt />
+      <ClosingSection config={config} tokens={tokens} />
+    </TemplateShell>
+  );
 }

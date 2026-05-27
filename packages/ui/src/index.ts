@@ -7,4 +7,6 @@ export { Timeline } from './components/Timeline';
 export { AudioPlayer } from './components/AudioPlayer';
 export { ScrollProgress } from './components/ScrollProgress';
 export { MapEmbed } from './components/MapEmbed';
+export { WeddingFamilyGrid } from './components/WeddingFamilyGrid';
+export { WeddingEventList } from './components/WeddingEventList';
 export { cn } from './lib/cn';
