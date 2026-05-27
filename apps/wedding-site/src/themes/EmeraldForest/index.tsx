@@ -73,7 +73,7 @@ function EmeraldHero({ config, guestName }: { config: WeddingConfig; guestName?:
           </p>
           <h1
             className="font-bold"
-            style={{ fontFamily: tokens.fontDisplay, color: 'var(--text)', fontSize: 'clamp(3rem, 16vw, 6rem)', lineHeight: 0.95 }}
+            style={{ fontFamily: tokens.fontDisplay, color: 'var(--text)', fontSize: 'clamp(3rem, 16vw, 6rem)', lineHeight: 1.1 }}
           >
             {config.groom.name}
             <span className="block text-3xl opacity-70" style={{ color: 'var(--accent)' }}>&</span>

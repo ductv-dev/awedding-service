@@ -67,7 +67,7 @@ function BlushHero({ config, guestName }: { config: WeddingConfig; guestName?: s
         </div>
         <RosePetal className="mx-auto mb-4" />
         <p className="mb-3 text-xs font-bold uppercase" style={{ color: 'var(--primary)', letterSpacing: '0.32em' }}>Save The Date</p>
-        <h1 style={{ fontFamily: tokens.fontDisplay, color: 'var(--text)', fontSize: 'clamp(3.4rem, 16vw, 6.5rem)', lineHeight: 0.92 }}>
+        <h1 style={{ fontFamily: tokens.fontDisplay, color: 'var(--text)', fontSize: 'clamp(3.4rem, 16vw, 6.5rem)', lineHeight: 1.1 }}>
           {config.groom.name}
           <span className="mx-3" style={{ color: 'var(--primary)' }}>&</span>
           {config.bride.name}

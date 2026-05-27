@@ -59,11 +59,11 @@ function SageHero({ config, guestName }: { config: WeddingConfig; guestName?: st
   return (
     <section className="relative overflow-hidden px-4 py-14" style={{ background: 'var(--bg)' }}>
       <div className="mx-auto max-w-4xl rounded-[32px] p-4 sm:p-8" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-        <div className="grid min-h-[680px] items-center gap-6 sm:grid-cols-[1.05fr_0.95fr]">
+        <div className="grid sm:min-h-170 items-center gap-6 sm:grid-cols-[1.05fr_0.95fr]">
           <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="order-2 text-center sm:order-1 sm:text-left">
             <LeafBranch className="mx-auto mb-5 sm:mx-0" />
             <p className="mb-4 text-xs font-bold uppercase" style={{ color: 'var(--primary)', letterSpacing: '0.28em' }}>Garden Ceremony</p>
-            <h1 style={{ fontFamily: tokens.fontDisplay, color: 'var(--text)', fontSize: 'clamp(2.7rem, 11vw, 5.5rem)', lineHeight: 1 }}>
+            <h1 style={{ fontFamily: tokens.fontDisplay, color: 'var(--text)', fontSize: 'clamp(2.7rem, 11vw, 5.5rem)', lineHeight: 1.1 }}>
               {config.groom.name}
               <span className="block text-2xl" style={{ color: 'var(--primary)' }}>and</span>
               {config.bride.name}

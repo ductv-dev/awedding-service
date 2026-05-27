@@ -46,23 +46,15 @@ export function EmeraldEvents({ config, tokens }: { config: WeddingConfig; token
     <SectionBlock tokens={tokens}>
       <SectionTitle tokens={tokens}>Thời Gian & Địa Điểm</SectionTitle>
       <div className="grid gap-4 sm:grid-cols-2">
-        {config.events.map((event, index) => {
-          const d = dateParts(event.date);
-          return (
-            <article key={index} className="rounded-2xl p-5" style={{ background: 'color-mix(in srgb, var(--accent) 8%, transparent)' }}>
-              <EmeraldCalendar date={event.date} />
-              <div className="mb-4 flex items-center gap-4">
-                <div className="text-center">
-                  <p className="text-xs font-bold" style={{ color: 'var(--text-muted)' }}>{d.dayName}</p>
-                  <p className="text-4xl font-bold" style={{ color: 'var(--accent)' }}>{d.day}</p>
-                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Tháng {d.month}</p>
-                </div>
-                <EventCopy event={event} />
-              </div>
-              {event.mapEmbedUrl && <MapEmbed url={event.mapEmbedUrl} address={event.address} />}
-            </article>
-          );
-        })}
+        {config.events.map((event, index) => (
+          <article key={index} className="rounded-2xl p-5" style={{ background: 'color-mix(in srgb, var(--accent) 8%, transparent)' }}>
+            <EmeraldCalendar date={event.date} />
+            <div className="mt-4">
+              <EventCopy event={event} />
+            </div>
+            {event.mapEmbedUrl && <MapEmbed url={event.mapEmbedUrl} address={event.address} className="mt-3" />}
+          </article>
+        ))}
       </div>
     </SectionBlock>
   );
@@ -131,8 +123,8 @@ export function SageEvents({ config, tokens }: { config: WeddingConfig; tokens: 
             <article key={index} className="grid gap-4 rounded-3xl p-5 sm:grid-cols-[180px_1fr]" style={{ background: 'color-mix(in srgb, var(--primary) 9%, transparent)' }}>
               <div>
                 <div className="mb-3 flex h-24 w-24 flex-col items-center justify-center rounded-full" style={{ background: 'var(--bg-card)' }}>
-                <p className="text-3xl font-bold" style={{ color: 'var(--primary)' }}>{d.day}</p>
-                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Tháng {d.month}</p>
+                  <p className="text-3xl font-bold" style={{ color: 'var(--primary)' }}>{d.day}</p>
+                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Tháng {d.month}</p>
                 </div>
                 <SageCalendar date={event.date} />
               </div>
@@ -158,9 +150,9 @@ export function BlushEvents({ config, tokens }: { config: WeddingConfig; tokens:
           const d = dateParts(event.date);
           return (
             <article key={index} className="rounded-[28px] p-5 text-center" style={{ background: 'color-mix(in srgb, var(--primary) 10%, transparent)' }}>
-              <p className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full text-3xl font-bold" style={{ color: 'var(--primary)', background: 'var(--bg-card)' }}>
+              <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full text-3xl font-bold" style={{ color: 'var(--primary)', background: 'var(--bg-card)' }}>
                 {d.day}
-              </p>
+              </div>
               <BlushCalendar date={event.date} />
               <EventCopy event={event} />
               {event.mapEmbedUrl && <MapEmbed url={event.mapEmbedUrl} address={event.address} className="mt-4" />}

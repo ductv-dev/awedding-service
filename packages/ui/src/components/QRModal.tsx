@@ -113,8 +113,8 @@ export function QRModal({ groom, bride, onClose }: QRModalProps) {
               className={cn(
                 'flex-1 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none',
                 tab === t
-                  ? 'border-b-2 border-red-600 text-red-600'
-                  : 'text-gray-500 hover:text-gray-800',
+                  ? 'border-b-2 border-gray-900 text-gray-900'
+                  : 'text-gray-400 hover:text-gray-700',
               )}
             >
               {t === 'groom' ? 'Chú Rể' : 'Cô Dâu'}

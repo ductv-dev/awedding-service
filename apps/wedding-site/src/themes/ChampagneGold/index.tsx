@@ -61,12 +61,12 @@ function ChampagneHero({ config, guestName }: { config: WeddingConfig; guestName
 
   return (
     <section className="relative overflow-hidden px-4 py-20" style={{ background: 'var(--bg)' }}>
-      <div className="mx-auto grid min-h-[760px] max-w-4xl items-center gap-8 sm:grid-cols-[1fr_1.1fr]">
+      <div className="mx-auto grid sm:min-h-190 max-w-4xl items-center gap-8 sm:grid-cols-[1fr_1.1fr]">
         <motion.div initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="text-center sm:text-left">
           <p className="mb-4 text-xs font-bold uppercase" style={{ color: 'var(--primary)', letterSpacing: '0.3em' }}>
             Champagne Wedding
           </p>
-          <h1 style={{ fontFamily: tokens.fontDisplay, color: 'var(--text)', fontSize: 'clamp(3.8rem, 15vw, 7rem)', lineHeight: 0.82 }}>
+          <h1 style={{ fontFamily: tokens.fontDisplay, color: 'var(--text)', fontSize: 'clamp(3.8rem, 15vw, 7rem)', lineHeight: 1.05 }}>
             {config.groom.name}
             <span className="block text-4xl" style={{ color: 'var(--primary)' }}>&</span>
             {config.bride.name}

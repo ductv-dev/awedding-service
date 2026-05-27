@@ -53,7 +53,7 @@ function InkHero({ config, guestName }: { config: WeddingConfig; guestName?: str
     <section className="grid min-h-screen items-center px-4 py-16" style={{ background: 'var(--bg)' }}>
       <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="mx-auto max-w-3xl text-center">
         <p className="mb-10 text-xs uppercase" style={{ color: 'var(--accent)', letterSpacing: '0.4em' }}>Wedding Invitation</p>
-        <h1 style={{ fontFamily: tokens.fontDisplay, color: 'var(--text)', fontSize: 'clamp(3.6rem, 16vw, 8rem)', lineHeight: 0.86, fontStyle: 'italic' }}>
+        <h1 style={{ fontFamily: tokens.fontDisplay, color: 'var(--text)', fontSize: 'clamp(3.6rem, 16vw, 8rem)', lineHeight: 1.0, fontStyle: 'italic' }}>
           {config.groom.name}
           <span className="block text-3xl not-italic" style={{ color: 'var(--accent)' }}>&</span>
           {config.bride.name}
@@ -61,7 +61,7 @@ function InkHero({ config, guestName }: { config: WeddingConfig; guestName?: str
         <InkLine className="mx-auto my-10" />
         {date && <p className="text-sm uppercase" style={{ color: 'var(--text-muted)', letterSpacing: '0.18em' }}>{formatDateVi(date)}</p>}
         {guestName && <p className="mt-5 text-sm" style={{ color: 'var(--accent)' }}>Kính mời {guestName}</p>}
-        <div className="relative mx-auto mt-12 aspect-[16/10] max-w-lg overflow-hidden grayscale" style={{ border: '1px solid var(--border)' }}>
+        <div className="relative mx-auto mt-12 aspect-16/10 max-w-lg overflow-hidden grayscale" style={{ border: '1px solid var(--border)' }}>
           <Image src={config.coverPhoto} alt="" fill priority sizes="520px" className="object-cover" />
         </div>
       </motion.div>
