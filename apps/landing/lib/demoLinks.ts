@@ -7,5 +7,12 @@ export const WEDDING_SITE_URL = (
 ).replace(/\/$/, '');
 
 export function getDemoUrl(slug = 'demo') {
-  return `${WEDDING_SITE_URL}/${slug.replace(/^\//, '')}`;
+  let baseUrl = WEDDING_SITE_URL;
+
+  if (typeof window !== 'undefined' && baseUrl.startsWith('http://localhost')) {
+    const { hostname, origin } = window.location;
+    baseUrl = hostname === 'localhost' || hostname === '127.0.0.1' ? DEFAULT_WEDDING_SITE_URL : origin;
+  }
+
+  return `${baseUrl}/${slug.replace(/^\//, '')}`;
 }

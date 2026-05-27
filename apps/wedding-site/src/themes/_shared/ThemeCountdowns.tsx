@@ -18,12 +18,13 @@ function getTargetDate(config: WeddingConfig) {
 }
 
 function useCountdown(targetDate: Date | null) {
+  const targetTime = targetDate?.getTime() ?? null;
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    if (!targetDate) return;
+    if (targetTime === null) return;
     const calc = () => {
-      const diff = targetDate.getTime() - Date.now();
+      const diff = targetTime - Date.now();
       if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
       return {
         days: Math.floor(diff / 86400000),
@@ -33,10 +34,10 @@ function useCountdown(targetDate: Date | null) {
       };
     };
 
-    queueMicrotask(() => setTimeLeft(calc()));
+    setTimeLeft(calc());
     const id = setInterval(() => setTimeLeft(calc()), 1000);
     return () => clearInterval(id);
-  }, [targetDate]);
+  }, [targetTime]);
 
   return timeLeft;
 }

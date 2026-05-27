@@ -1,18 +1,20 @@
 import type { Metadata } from 'next';
-import { Playfair_Display, Lato } from 'next/font/google';
+import { Playfair_Display, Open_Sans } from 'next/font/google';
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from '@/lib/seo';
 import './globals.css';
 
 const playfair = Playfair_Display({
-  subsets: ['latin'],
+  subsets: ['vietnamese', 'latin'],
   variable: '--font-display',
   weight: ['400', '600', '700'],
+  display: 'swap',
 });
 
-const lato = Lato({
-  subsets: ['latin'],
+const openSans = Open_Sans({
+  subsets: ['vietnamese', 'latin'],
   variable: '--font-sans',
   weight: ['300', '400', '700'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -69,7 +71,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi" className={`${playfair.variable} ${lato.variable}`}>
+    <html lang="vi" className={`${playfair.variable} ${openSans.variable}`}>
       <body>{children}</body>
     </html>
   );

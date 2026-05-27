@@ -33,32 +33,43 @@ export function PetalsCanvas({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const isMobile = window.matchMedia('(max-width: 640px)').matches;
+    const particleCount = Math.min(count, isMobile ? 8 : 14);
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.5);
+
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = Math.floor(window.innerWidth * pixelRatio);
+      canvas.height = Math.floor(window.innerHeight * pixelRatio);
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     };
     resize();
     window.addEventListener('resize', resize);
 
-    // Khởi tạo các cánh hoa (tối đa count items theo spec)
-    const petals: Petal[] = Array.from({ length: Math.min(count, 20) }, () => ({
+    const petals: Petal[] = Array.from({ length: particleCount }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * -window.innerHeight,
-      size: Math.random() * 8 + 6,
-      speed: Math.random() * 1 + 0.5,
+      size: Math.random() * (isMobile ? 5 : 8) + (isMobile ? 4 : 6),
+      speed: Math.random() * 0.8 + 0.35,
       rotation: Math.random() * Math.PI * 2,
       rotationSpeed: (Math.random() - 0.5) * 0.05,
-      opacity: Math.random() * 0.6 + 0.3,
-      sway: Math.random() * 30 + 10,
+      opacity: Math.random() * 0.45 + 0.25,
+      sway: Math.random() * (isMobile ? 18 : 30) + 8,
       swaySpeed: Math.random() * 0.02 + 0.01,
       swayOffset: Math.random() * Math.PI * 2,
     }));
 
     let frame = 0;
     let rafId: number;
+    let lastDraw = 0;
+    let isVisible = !document.hidden;
 
     const drawPetal = (p: Petal) => {
       ctx.save();
@@ -86,8 +97,12 @@ export function PetalsCanvas({
       ctx.restore();
     };
 
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const animate = (time: number) => {
+      rafId = requestAnimationFrame(animate);
+      if (!isVisible || time - lastDraw < 33) return;
+
+      lastDraw = time;
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       frame++;
 
       petals.forEach(p => {
@@ -95,23 +110,27 @@ export function PetalsCanvas({
         p.x += Math.sin(frame * p.swaySpeed + p.swayOffset) * 0.5;
         p.rotation += p.rotationSpeed;
 
-        // Reset khi ra khỏi màn hình
-        if (p.y > canvas.height + 20) {
+        if (p.y > window.innerHeight + 20) {
           p.y = -20;
-          p.x = Math.random() * canvas.width;
+          p.x = Math.random() * window.innerWidth;
         }
 
         drawPetal(p);
       });
 
-      rafId = requestAnimationFrame(animate);
     };
 
-    animate();
+    const handleVisibility = () => {
+      isVisible = !document.hidden;
+    };
+
+    document.addEventListener('visibilitychange', handleVisibility);
+    rafId = requestAnimationFrame(animate);
 
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', handleVisibility);
     };
   }, [count, color, shape]);
 

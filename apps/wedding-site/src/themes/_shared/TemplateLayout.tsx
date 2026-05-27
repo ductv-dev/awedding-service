@@ -64,7 +64,8 @@ function IntroScreen({
     openedRef.current = true;
     onOpened();
     window.dispatchEvent(new Event(INVITE_OPENED_EVENT));
-    setTimeout(() => startScroll(), 800);
+    const shouldAutoScroll = window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)').matches;
+    if (shouldAutoScroll) setTimeout(() => startScroll(), 800);
   };
 
   return (
@@ -75,7 +76,12 @@ function IntroScreen({
       exit={{ opacity: 0, transition: { duration: 0.7 } }}
       style={{ background: 'var(--bg)', zIndex: 100 }}
       onClick={handleEnter}
+      onPointerUp={handleEnter}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') handleEnter();
+      }}
       role="dialog"
+      tabIndex={-1}
       aria-label="Thiệp cưới - nhấn để xem"
     >
       <div className="absolute inset-0 opacity-25">
@@ -112,7 +118,9 @@ function IntroScreen({
             )}
           </div>
           <button
+            type="button"
             onClick={handleEnter}
+            onPointerUp={handleEnter}
             className="mt-1 w-full rounded-full py-3 text-sm font-semibold tracking-wide transition-all hover:opacity-90 active:scale-95"
             style={{ background: 'var(--primary)', color: '#fff' }}
           >
@@ -170,7 +178,7 @@ export function TemplateShell({
       <AnimatePresence>
         {showIntro && <IntroScreen key="intro" config={config} tokens={tokens} onOpened={handleIntroOpened} />}
       </AnimatePresence>
-      {tokens.particles && (
+      {!showIntro && tokens.particles && (
         <PetalsCanvas count={tokens.particles.count} color={tokens.particles.color} shape={tokens.particles.shape} />
       )}
       <main className={config.isDemo ? 'pt-8' : ''}>{children}</main>

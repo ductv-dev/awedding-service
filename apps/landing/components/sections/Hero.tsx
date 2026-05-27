@@ -3,11 +3,18 @@
 import { motion } from "framer-motion"
 import { ArrowRight, MessageCircle } from "lucide-react"
 import Link from "next/link"
+import { getDemoUrl } from "@/lib/demoLinks"
 
 // Phone mockup hiển thị thiệp mẫu Song Hỷ bằng CSS thuần
 function PhoneMockup() {
   return (
-    <div className="relative mx-auto w-[200px] sm:w-[220px]" aria-hidden="true">
+    <a
+      href={getDemoUrl("demo-red")}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="relative mx-auto block w-[200px] transition-transform focus-visible:rounded-[32px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 sm:w-[220px]"
+      aria-label="Mở thiệp mẫu Song Hỷ"
+    >
       {/* Khung điện thoại */}
       <div
         className="relative overflow-hidden rounded-[32px] shadow-2xl"
@@ -105,7 +112,7 @@ function PhoneMockup() {
         className="absolute inset-0 -z-10 rounded-[32px] opacity-30 blur-2xl"
         style={{ background: "#C41E3A" }}
       />
-    </div>
+    </a>
   )
 }
 

@@ -4,17 +4,20 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "env": ["NEXT_PUBLIC_SITE_URL", "NEXT_PUBLIC_WEDDING_SITE_URL", "VERCEL_PROJECT_PRODUCTION_URL", "VERCEL_URL"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint"],
+      "env": ["NEXT_PUBLIC_SITE_URL", "NEXT_PUBLIC_WEDDING_SITE_URL", "VERCEL_PROJECT_PRODUCTION_URL", "VERCEL_URL"]
     },
     "format": {
       "dependsOn": ["^format"]
     },
     "typecheck": {
-      "dependsOn": ["^typecheck"]
+      "dependsOn": ["^typecheck"],
+      "env": ["NEXT_PUBLIC_SITE_URL", "NEXT_PUBLIC_WEDDING_SITE_URL", "VERCEL_PROJECT_PRODUCTION_URL", "VERCEL_URL"]
     },
     "dev": {
       "cache": false,

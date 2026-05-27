@@ -1,37 +1,54 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface ScrollProgressProps {
   color?: string;
 }
 
 export function ScrollProgress({ color = '#C41E3A' }: ScrollProgressProps) {
-  const [progress, setProgress] = useState(0);
+  const barRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const onScroll = () => {
+    const update = () => {
       const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
       const total = scrollHeight - clientHeight;
-      setProgress(total > 0 ? (scrollTop / total) * 100 : 0);
+      const progress = total > 0 ? scrollTop / total : 0;
+      if (barRef.current) {
+        barRef.current.style.transform = `scaleX(${Math.min(Math.max(progress, 0), 1)})`;
+        barRef.current.parentElement?.setAttribute('aria-valuenow', String(Math.round(progress * 100)));
+      }
+      rafRef.current = null;
     };
 
+    const onScroll = () => {
+      if (rafRef.current === null) {
+        rafRef.current = requestAnimationFrame(update);
+      }
+    };
+
+    update();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   return (
     <div
       className="fixed left-0 top-0 z-50 h-0.5 w-full origin-left"
       role="progressbar"
-      aria-valuenow={Math.round(progress)}
+      aria-valuenow={0}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label="Tiến trình đọc trang"
     >
       <div
-        className="h-full transition-[width] duration-100"
-        style={{ width: `${progress}%`, background: color }}
+        ref={barRef}
+        className="h-full origin-left"
+        style={{ transform: 'scaleX(0)', background: color }}
       />
     </div>
   );
